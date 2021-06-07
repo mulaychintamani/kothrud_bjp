@@ -1,0 +1,8 @@
+.header_body {
+  background-color: darkgray;
+  height: 90px;
+  background-image: url("../../../public/images/header.jpg");
+  background-color: #fb820d;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

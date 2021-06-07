@@ -1,0 +1,15 @@
+.footer_body {
+  position: fixed;
+  bottom: 0px;
+  background-color: #28531a;
+  height: 30px;
+  width: 100% !important;
+  border-top: 1px #DFDFDF;
+}
+
+.footer_copyright{
+  margin-right: 20px;
+  font-size: 13px;
+  color: #DFDFDF;
+  padding: 6px;
+}
