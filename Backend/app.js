@@ -12,7 +12,7 @@ app.use(cors());
 
 // Connect to DB
 mongoose.connect(
-  "mongodb://localhost:27017/bjp",
+  "mongodb+srv://root:yuga@2008@cluster0.54fv8.mongodb.net/bjp?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
     console.log("DATABASE IS CONNECTED");
