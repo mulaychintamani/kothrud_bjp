@@ -5,7 +5,10 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import { Box, Button, Grid } from "@material-ui/core";
-import { TypeOfServiceAddForm } from "../../../public/constant/appConstant";
+import {
+  TypeOfServiceAddForm,
+  URL,
+} from "../../../public/constant/appConstant";
 import axios from "axios";
 export class AddUser extends Component {
   constructor(props) {
@@ -26,12 +29,10 @@ export class AddUser extends Component {
   }
 
   componentDidMount = () => {
-    const res = axios
-      .get("http://localhost:8081/getusers", {})
-      .then((result) => {
-        console.log("This Is Response", result);
-        this.setState({ userList: result.data });
-      });
+    const res = axios.get("http://" + URL + "/getusers", {}).then((result) => {
+      console.log("This Is Response", result);
+      this.setState({ userList: result.data });
+    });
   };
 
   setUserData = (data, fieldName) => {
@@ -97,7 +98,7 @@ export class AddUser extends Component {
     };
 
     axios
-      .post("http://localhost:8081/addnewusers", userDetails)
+      .post("http://" + URL + "/addnewusers", userDetails)
       .then((response) => {
         if (response.status === 200) {
           alert("Record Updated");

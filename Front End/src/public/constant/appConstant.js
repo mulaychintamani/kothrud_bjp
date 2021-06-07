@@ -16,6 +16,9 @@ export const ActionDetails = [
   },
 ];
 
+export const URL = "18.218.67.184:8081";
+export const URL_LOCAL = "localhost:8081";
+
 export const TypeOfServiceAddForm = [
   { title: "Vaccince" },
   { title: "CNG Cupon" },
