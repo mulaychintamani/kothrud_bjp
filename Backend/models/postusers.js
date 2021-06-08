@@ -8,6 +8,8 @@ const PostSchema = mongoose.Schema({
   bloodgroup: String,
   dob: String,
   services: Array,
+  rationid: String,
+  cuponcode: String,
 });
 
 module.exports = mongoose.model("Postusers", PostSchema);
