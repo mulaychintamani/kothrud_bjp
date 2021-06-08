@@ -4,7 +4,15 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import { Box, Button, Grid } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@material-ui/core";
 import { ToastContainer, toast } from "material-react-toastify";
 import "material-react-toastify/dist/ReactToastify.css";
 import {
@@ -52,7 +60,9 @@ export class AddUser extends Component {
   };
 
   searchOnAdhar = (adharNumbar) => {
-    const user = this.state.userList.find((x) => x.adhar === adharNumbar);
+    const user = (this.state.userList || []).find(
+      (x) => x.adhar === adharNumbar
+    );
     if (user !== undefined) {
       console.log(user);
       this.setState({
@@ -120,18 +130,23 @@ export class AddUser extends Component {
     if (
       this.state.name === "" ||
       this.state.adhar === "" ||
-      this.state.mob === ""
+      this.state.mob === "" ||
+      this.state.cuponcode === ""
     ) {
-      toast.error("😤 Please fill mandatory details [Mob,Name,Adhar]", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      toast.error(
+        "😤 Please fill mandatory details [Mobile, Name, Adhar Number and Token Number]",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
       return false;
     }
+    this.setState({ type: "search" });
 
     axios
       .post("http://" + URL + "/addnewusers", userDetails)
@@ -181,22 +196,6 @@ export class AddUser extends Component {
       licence,
     } = this.state;
 
-    console.log(
-      type,
-      name,
-      adhar,
-      address,
-      mob,
-      userList,
-      bloodgroup,
-      dob,
-      services,
-      rationid,
-      cuponcode,
-      vhicalno,
-      licence
-    );
-
     return (
       <>
         <ToastContainer />
@@ -206,11 +205,12 @@ export class AddUser extends Component {
               <TextField
                 id="outlined-basic"
                 label="Adhar Numer *"
+                type="number"
                 variant="outlined"
                 size="small"
-                defaultValue={adhar || ""}
+                value={adhar || ""}
                 fullWidth
-                onBlur={(e) => {
+                onChange={(e) => {
                   this.setUserData(e.target.value, "adhar");
                 }}
               />
@@ -274,6 +274,7 @@ export class AddUser extends Component {
                 <TextField
                   id="outlined-basic"
                   label="Mobile *"
+                  type="number"
                   variant="outlined"
                   size="small"
                   fullWidth
@@ -285,42 +286,41 @@ export class AddUser extends Component {
               </Box>
             </Grid>
           </Grid>
-          {services.find(
-            (x) => x.title === "Ration" || x.title === "CNG Cupon"
-          ) ? (
-            <Grid container justify="center">
-              <Grid item md={4}>
-                <Box m={2}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Ration Card Number"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={rationid || ""}
-                    onChange={(e) => {
-                      this.setOtherData(e.target.value, "rationid");
-                    }}
-                  />
-                </Box>
-              </Grid>
-              <Grid item md={4}>
-                <Box m={2}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Token Number"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={cuponcode || ""}
-                    onChange={(e) => {
-                      this.setOtherData(e.target.value, "cuponcode");
-                    }}
-                  />
-                </Box>
-              </Grid>
+
+          <Grid container justify="center">
+            <Grid item md={4}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic"
+                  label="Ration Card Number"
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={rationid || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "rationid");
+                  }}
+                />
+              </Box>
             </Grid>
-          ) : null}
+            <Grid item md={4}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic"
+                  label="Token Number*"
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={cuponcode || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "cuponcode");
+                  }}
+                />
+              </Box>
+            </Grid>
+          </Grid>
 
           {services.find((x) => x.title === "CNG Cupon") ? (
             <>
@@ -362,7 +362,38 @@ export class AddUser extends Component {
           <Grid container justify="center">
             <Grid item md={4}>
               <Box m={2}>
-                <TextField
+                <FormControl
+                  variant="outlined"
+                  size="small"
+                  style={{ width: "100%" }}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Blood Group
+                  </InputLabel>
+                  <Select
+                    size="small"
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={bloodgroup || ""}
+                    onChange={(e) => {
+                      this.setOtherData(e.target.value, "bloodgroup");
+                    }}
+                    label="Blood Group"
+                    variant="outlined"
+                    autoWidth
+                    style={{ width: "100%" }}
+                  >
+                    <MenuItem value={"A+ve"}>A +ve</MenuItem>
+                    <MenuItem value={"A-+ve"}>A -ve</MenuItem>
+                    <MenuItem value={"B+ve"}>B +ve</MenuItem>
+                    <MenuItem value={"B-ve"}>B -ve</MenuItem>
+                    <MenuItem value={"AB+ve"}>AB +ve</MenuItem>
+                    <MenuItem value={"AB-ve"}>AB -ve</MenuItem>
+                    <MenuItem value={"O+ve"}>O+ve</MenuItem>
+                    <MenuItem value={"O-ve"}>O -ve</MenuItem>
+                  </Select>
+                </FormControl>
+                {/* <TextField
                   id="outlined-basic1"
                   label="Blood Group"
                   variant="outlined"
@@ -372,7 +403,7 @@ export class AddUser extends Component {
                   onChange={(e) => {
                     this.setOtherData(e.target.value, "bloodgroup");
                   }}
-                />
+                /> */}
               </Box>
             </Grid>
             <Grid item md={4}>

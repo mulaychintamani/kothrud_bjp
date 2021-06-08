@@ -4,6 +4,9 @@ import { Box, Grid, TextField, IconButton, Button } from "@material-ui/core";
 import AddUser from "./AddUser/AddUser";
 
 export class NewUser extends Component {
+  backToHome = () => {
+    this.props.onClickAction("Default");
+  };
   render() {
     return (
       <Grid container justify="center">
@@ -27,7 +30,7 @@ export class NewUser extends Component {
           </Box>
         </Grid>
         <Grid item md={12}>
-          <AddUser />
+          <AddUser backToHome={this.backToHome} />
         </Grid>
       </Grid>
     );
