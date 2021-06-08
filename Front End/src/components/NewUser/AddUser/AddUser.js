@@ -5,6 +5,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import { Box, Button, Grid } from "@material-ui/core";
+import { ToastContainer, toast } from "material-react-toastify";
+import "material-react-toastify/dist/ReactToastify.css";
 import {
   TypeOfServiceAddForm,
   URL,
@@ -25,6 +27,8 @@ export class AddUser extends Component {
       dob: "",
       services: [],
       userid: "",
+      rationid: "",
+      cuponcode: "",
     };
   }
 
@@ -58,6 +62,8 @@ export class AddUser extends Component {
         bloodgroup: user.bloodgroup,
         dob: user.dob,
         services: user.services,
+        rationid: user.rationid,
+        cuponcode: user.cuponcode,
       });
     } else {
       this.setState({
@@ -69,6 +75,8 @@ export class AddUser extends Component {
         bloodgroup: "",
         dob: "",
         services: [],
+        rationid: "",
+        cuponcode: "",
       });
     }
   };
@@ -80,11 +88,11 @@ export class AddUser extends Component {
     if (fieldName === "address") this.setState({ address: value });
     if (fieldName === "bloodgroup") this.setState({ bloodgroup: value });
     if (fieldName === "dob") this.setState({ dob: value });
+    if (fieldName === "cuponcode") this.setState({ cuponcode: value });
+    if (fieldName === "rationid") this.setState({ rationid: value });
   };
 
-  updateUserRecord = () => {
-    console.log("UpdateRecord");
-  };
+  updateUserRecord = () => {};
 
   createUserRecord = () => {
     const userDetails = {
@@ -95,13 +103,38 @@ export class AddUser extends Component {
       bloodgroup: this.state.bloodgroup,
       dob: this.state.dob,
       services: this.state.services,
+      rationid: this.state.rationid,
+      cuponcode: this.state.cuponcode,
     };
+
+    if (
+      this.state.name === "" ||
+      this.state.adhar === "" ||
+      this.state.mob === ""
+    ) {
+      toast.error("😤 Please fill mandatory details [Mob,Name,Adhar]", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return false;
+    }
 
     axios
       .post("http://" + URL + "/addnewusers", userDetails)
       .then((response) => {
         if (response.status === 200) {
-          alert("Record Updated");
+          toast.success("🦄 Record Creted Successfully", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
           this.setState({
             name: "",
             adhar: "",
@@ -110,6 +143,8 @@ export class AddUser extends Component {
             bloodgroup: "",
             dob: "",
             services: [],
+            rationid: "",
+            cuponcode: "",
           });
         }
       });
@@ -128,6 +163,8 @@ export class AddUser extends Component {
       bloodgroup,
       dob,
       services,
+      rationid,
+      cuponcode,
     } = this.state;
 
     console.log(
@@ -139,107 +176,26 @@ export class AddUser extends Component {
       userList,
       bloodgroup,
       dob,
-      services
+      services,
+      rationid,
+      cuponcode
     );
 
     return (
       <>
+        <ToastContainer />
         <Grid container justify="center">
           <Grid item md={8}>
             <Box m={2}>
               <TextField
                 id="outlined-basic"
-                label="Adhar Numer"
+                label="Adhar Numer *"
                 variant="outlined"
                 size="small"
                 defaultValue={adhar || ""}
                 fullWidth
                 onBlur={(e) => {
                   this.setUserData(e.target.value, "adhar");
-                }}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container justify="center">
-          <Grid item md={4}>
-            <Box m={2}>
-              <TextField
-                id="outlined-basic"
-                label="Name"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={name || ""}
-                onChange={(e) => {
-                  this.setOtherData(e.target.value, "name");
-                }}
-              />
-            </Box>
-          </Grid>
-          <Grid item md={4}>
-            <Box m={2}>
-              <TextField
-                id="outlined-basic"
-                label="Mobile"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={mob || ""}
-                onChange={(e) => {
-                  this.setOtherData(e.target.value, "mobile");
-                }}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container justify="center">
-          <Grid item md={4}>
-            <Box m={2}>
-              <TextField
-                id="outlined-basic1"
-                label="Blood Group"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={bloodgroup || ""}
-                onChange={(e) => {
-                  this.setOtherData(e.target.value, "bloodgroup");
-                }}
-              />
-            </Box>
-          </Grid>
-          <Grid item md={4}>
-            <Box m={2}>
-              <TextField
-                id="outlined-basic2"
-                label="Birth Date"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dob || ""}
-                onChange={(e) => {
-                  this.setOtherData(e.target.value, "dob");
-                }}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container justify="center">
-          <Grid item md={8}>
-            <Box m={2}>
-              <TextField
-                id="outlined-basic"
-                label="Address"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={address || ""}
-                onChange={(e) => {
-                  this.setOtherData(e.target.value, "address");
                 }}
               />
             </Box>
@@ -274,12 +230,131 @@ export class AddUser extends Component {
                   <TextField
                     {...params}
                     variant="outlined"
-                    label="Add  Services"
+                    label="Add  Services "
                   />
                 )}
               />
             </Box>
           </Grid>
+
+          <Grid container justify="center">
+            <Grid item md={4}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic"
+                  label="Name *"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={name || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "name");
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic"
+                  label="Mobile *"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={mob || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "mobile");
+                  }}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+          {services.find((x) => x.title === "Ration") ? (
+            <Grid container justify="center">
+              <Grid item md={4}>
+                <Box m={2}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Ration Card Number"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={rationid || ""}
+                    onChange={(e) => {
+                      this.setOtherData(e.target.value, "rationid");
+                    }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item md={4}>
+                <Box m={2}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Token Number"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={cuponcode || ""}
+                    onChange={(e) => {
+                      this.setOtherData(e.target.value, "cuponcode");
+                    }}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          ) : null}
+
+          <Grid container justify="center">
+            <Grid item md={4}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic1"
+                  label="Blood Group"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={bloodgroup || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "bloodgroup");
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic2"
+                  label="Birth Date"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={dob || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "dob");
+                  }}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid container justify="center">
+            <Grid item md={8}>
+              <Box m={2}>
+                <TextField
+                  id="outlined-basic"
+                  label="Address"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={address || ""}
+                  onChange={(e) => {
+                    this.setOtherData(e.target.value, "address");
+                  }}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+
           <Grid container>
             <Grid item md={9}></Grid>
             <Grid item md={2}>

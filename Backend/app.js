@@ -42,6 +42,8 @@ app.post("/addnewusers", (req, res) => {
     bloodgroup: req.body.bloodgroup,
     dob: req.body.dob,
     services: req.body.services,
+    rationid: req.body.rationid,
+    cuponcode: req.body.cuponcode,
   });
   post.save().then((data) => {
     res.json(data);
