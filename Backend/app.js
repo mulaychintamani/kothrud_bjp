@@ -44,6 +44,8 @@ app.post("/addnewusers", (req, res) => {
     services: req.body.services,
     rationid: req.body.rationid,
     cuponcode: req.body.cuponcode,
+    vhicalno: req.body.vhicalno,
+    licence: req.body.licence,
   });
   post.save().then((data) => {
     res.json(data);

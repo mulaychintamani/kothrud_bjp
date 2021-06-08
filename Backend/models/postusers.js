@@ -10,6 +10,8 @@ const PostSchema = mongoose.Schema({
   services: Array,
   rationid: String,
   cuponcode: String,
+  vhicalno: String,
+  licence: String,
 });
 
 module.exports = mongoose.model("Postusers", PostSchema);

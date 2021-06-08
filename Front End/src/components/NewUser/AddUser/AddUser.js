@@ -29,6 +29,8 @@ export class AddUser extends Component {
       userid: "",
       rationid: "",
       cuponcode: "",
+      vhicalno: "",
+      licence: "",
     };
   }
 
@@ -64,6 +66,8 @@ export class AddUser extends Component {
         services: user.services,
         rationid: user.rationid,
         cuponcode: user.cuponcode,
+        vhicalno: user.vhicalno,
+        licence: user.licence,
       });
     } else {
       this.setState({
@@ -77,6 +81,8 @@ export class AddUser extends Component {
         services: [],
         rationid: "",
         cuponcode: "",
+        vhicalno: "",
+        licence: "",
       });
     }
   };
@@ -90,6 +96,8 @@ export class AddUser extends Component {
     if (fieldName === "dob") this.setState({ dob: value });
     if (fieldName === "cuponcode") this.setState({ cuponcode: value });
     if (fieldName === "rationid") this.setState({ rationid: value });
+    if (fieldName === "vhicalno") this.setState({ vhicalno: value });
+    if (fieldName === "licence") this.setState({ licence: value });
   };
 
   updateUserRecord = () => {};
@@ -105,6 +113,8 @@ export class AddUser extends Component {
       services: this.state.services,
       rationid: this.state.rationid,
       cuponcode: this.state.cuponcode,
+      vhicalno: this.state.vhicalno,
+      licence: this.state.licence,
     };
 
     if (
@@ -145,6 +155,8 @@ export class AddUser extends Component {
             services: [],
             rationid: "",
             cuponcode: "",
+            vhicalno: "",
+            licence: "",
           });
         }
       });
@@ -165,6 +177,8 @@ export class AddUser extends Component {
       services,
       rationid,
       cuponcode,
+      vhicalno,
+      licence,
     } = this.state;
 
     console.log(
@@ -178,7 +192,9 @@ export class AddUser extends Component {
       dob,
       services,
       rationid,
-      cuponcode
+      cuponcode,
+      vhicalno,
+      licence
     );
 
     return (
@@ -269,7 +285,9 @@ export class AddUser extends Component {
               </Box>
             </Grid>
           </Grid>
-          {services.find((x) => x.title === "Ration") ? (
+          {services.find(
+            (x) => x.title === "Ration" || x.title === "CNG Cupon"
+          ) ? (
             <Grid container justify="center">
               <Grid item md={4}>
                 <Box m={2}>
@@ -302,6 +320,43 @@ export class AddUser extends Component {
                 </Box>
               </Grid>
             </Grid>
+          ) : null}
+
+          {services.find((x) => x.title === "CNG Cupon") ? (
+            <>
+              <Grid container justify="center">
+                <Grid item md={4}>
+                  <Box m={2}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Vehival Number"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      value={vhicalno || ""}
+                      onChange={(e) => {
+                        this.setOtherData(e.target.value, "vhicalno");
+                      }}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item md={4}>
+                  <Box m={2}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Licence/Reg Number"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      value={licence || ""}
+                      onChange={(e) => {
+                        this.setOtherData(e.target.value, "licence");
+                      }}
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+            </>
           ) : null}
 
           <Grid container justify="center">
