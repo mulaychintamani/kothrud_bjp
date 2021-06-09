@@ -12,6 +12,7 @@ const PostSchema = mongoose.Schema({
   cuponcode: String,
   vhicalno: String,
   licence: String,
+  date: String,
 });
 
 module.exports = mongoose.model("Postusers", PostSchema);
