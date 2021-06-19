@@ -463,7 +463,7 @@ export class AddUser extends Component {
                       this.createUserRecord();
                     }}
                   >
-                    Create Record
+                    Create Record (New)
                   </Button>
                 )}
               </Box>
