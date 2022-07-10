@@ -15,7 +15,7 @@ export class NewUser extends Component {
         </Grid>
         <Grid item md={8}>
           <Box m={2}>
-            <h2>Search [By Adhar] / Add New User</h2>
+            <h2>Search [By Adhar] / Add New Person</h2>
           </Box>
         </Grid>
         <Grid item md={2}>
