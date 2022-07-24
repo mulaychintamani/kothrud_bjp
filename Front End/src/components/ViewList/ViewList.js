@@ -9,7 +9,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { URL } from "../../public/constant/appConstant";
+import { URL_LOCAL } from "../../public/constant/appConstant";
 
 export class ViewList extends Component {
   constructor(props) {
@@ -20,10 +20,12 @@ export class ViewList extends Component {
   }
 
   componentDidMount = () => {
-    const res = axios.get("http://" + URL + "/getusers", {}).then((result) => {
-      console.log("This Is Response", result);
-      this.setState({ userList: result.data });
-    });
+    const res = axios
+      .get("http://" + URL_LOCAL + "/getusers", {})
+      .then((result) => {
+        console.log("This Is Response", result);
+        this.setState({ userList: result.data });
+      });
   };
 
   createData = (name, calories, fat, carbs, protein) => {

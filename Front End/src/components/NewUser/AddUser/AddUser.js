@@ -18,6 +18,7 @@ import "material-react-toastify/dist/ReactToastify.css";
 import {
   TypeOfServiceAddForm,
   URL,
+  URL_LOCAL,
 } from "../../../public/constant/appConstant";
 import axios from "axios";
 export class AddUser extends Component {
@@ -43,10 +44,12 @@ export class AddUser extends Component {
   }
 
   componentDidMount = () => {
-    const res = axios.get("http://" + URL + "/getusers", {}).then((result) => {
-      console.log("This Is Response", result);
-      this.setState({ userList: result.data });
-    });
+    const res = axios
+      .get("http://" + URL_LOCAL + "/getusers", {})
+      .then((result) => {
+        console.log("This Is Response", result);
+        this.setState({ userList: result.data });
+      });
   };
 
   setUserData = (data, fieldName) => {
@@ -149,7 +152,7 @@ export class AddUser extends Component {
     this.setState({ type: "search" });
 
     axios
-      .post("http://" + URL + "/addnewusers", userDetails)
+      .post("http://" + URL_LOCAL + "/addnewusers", userDetails)
       .then((response) => {
         if (response.status === 200) {
           toast.success("🦄 Record Creted Successfully", {
